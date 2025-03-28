@@ -34,7 +34,7 @@ export function ItemList({
         <div className="md:hidden p-4 border-b border-gray-200 dark:border-gray-700">
           <BackButton />
         </div>
-        <div className="p-4">
+        <div className="p-3">
           <h2 className="text-lg font-semibold">{listTitle}</h2>
         </div>
       </div>
@@ -52,28 +52,27 @@ export function ItemList({
             {items.map((item) => (
               <li
                 key={item.id}
-                className={`p-4 hover:bg-gray-50 dark:hover:bg-gray-800 ${
+                className={`py-2 px-3 hover:bg-gray-50 dark:hover:bg-gray-800 ${
                   item.id === selectedItemId
                     ? "bg-gray-100 dark:bg-gray-800"
                     : ""
                 }`}
               >
                 <Link href={`#item=${item.id}`} className="block">
-                  <h3
-                    className={`font-medium mb-1 ${
-                      item.id === selectedItemId
-                        ? "text-blue-700 dark:text-blue-500"
-                        : ""
-                    }`}
-                  >
-                    {item.title}
-                  </h3>
-                  <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-2 mb-1">
-                    {item.contentSnippet}
-                  </p>
-                  <span className="text-xs text-gray-400 dark:text-gray-500">
-                    {formatDate(item.isoDate)}
-                  </span>
+                  <div className="flex justify-between items-center">
+                    <h3
+                      className={`font-medium text-sm ${
+                        item.id === selectedItemId
+                          ? "text-blue-700 dark:text-blue-500"
+                          : ""
+                      }`}
+                    >
+                      {item.title}
+                    </h3>
+                    <span className="text-xs text-gray-400 dark:text-gray-500 ml-2 whitespace-nowrap">
+                      {formatDate(item.isoDate)}
+                    </span>
+                  </div>
                 </Link>
               </li>
             ))}
