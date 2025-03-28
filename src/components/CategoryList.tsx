@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Category } from "@/types";
+import { getItemsForCategory, getItemsForSite } from "@/data/mockData";
 
 interface CategoryListProps {
   categories: Category[];
@@ -41,6 +42,9 @@ export function CategoryList({
             }`}
           >
             {category.title}
+            <span className="ml-2 text-xs text-gray-500 dark:text-gray-400">
+              ({getItemsForCategory(category.id).length})
+            </span>
           </Link>
           <ul className="ml-4 mt-2 space-y-1">
             {category.sites.map((site) => (
@@ -54,6 +58,9 @@ export function CategoryList({
                   }`}
                 >
                   {site.title}
+                  <span className="ml-2 text-xs text-gray-500 dark:text-gray-400">
+                    ({getItemsForSite(site.id).length})
+                  </span>
                 </Link>
               </li>
             ))}
