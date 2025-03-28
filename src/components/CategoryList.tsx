@@ -7,6 +7,7 @@ import {
   getItemsForSite,
   mockItems,
 } from "@/data/mockData";
+import { ThemeToggle } from "./ThemeToggle";
 
 interface CategoryListProps {
   categories: Category[];
@@ -23,7 +24,7 @@ export function CategoryList({
 
   return (
     <nav className="space-y-4 p-4 border-r border-gray-200 dark:border-gray-700 h-full overflow-y-auto">
-      <div className="mb-6 flex items-center">
+      <div className="mb-6 flex items-center justify-between">
         <Link href="#" className="inline-flex items-center">
           <Image
             src="/logo.svg"
@@ -35,6 +36,7 @@ export function CategoryList({
           />
           <h1 className="text-xl font-bold ml-2">FEEDS</h1>
         </Link>
+        <ThemeToggle />
       </div>
       <div className="mb-4">
         <Link
