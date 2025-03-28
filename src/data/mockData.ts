@@ -33,7 +33,8 @@ export const mockCategories: Category[] = [
   },
 ];
 
-export const mockItems: FeedItem[] = [
+// Base items that will be part of the expanded list
+const baseItems: FeedItem[] = [
   // Hacker News Items
   {
     id: "hn-item-1",
@@ -102,6 +103,90 @@ export const mockItems: FeedItem[] = [
     categoryId: "design",
   },
 ];
+
+// Generate additional mock items to reach 50 items total
+const generateMockItems = (count: number): FeedItem[] => {
+  const items: FeedItem[] = [...baseItems];
+
+  // Sample tech news titles
+  const techTitles = [
+    "The Future of AI in 2024",
+    "Open Source vs Commercial Software: The Eternal Debate",
+    "Why TypeScript is Winning Over JavaScript",
+    "Serverless Architecture: Benefits and Drawbacks",
+    "Blockchain Beyond Cryptocurrency",
+    "Web Assembly and the Future of Web Development",
+    "Quantum Computing: Practical Applications",
+    "IoT Security Concerns Every Developer Should Know",
+    "Machine Learning Models for Small Datasets",
+    "The Rise of Low-Code Platforms",
+    "Flutter vs React Native: Which to Choose in 2024",
+    "Database Optimization Techniques",
+    "Building Microservices Architecture",
+    "Cloud Computing Trends to Watch",
+    "GraphQL vs REST: When to Use Each",
+  ];
+
+  // Sample design titles
+  const designTitles = [
+    "Design Systems That Scale",
+    "Typography Trends in Web Design",
+    "Color Theory for Digital Products",
+    "Mobile-First Design Principles",
+    "Accessibility in Modern Web Applications",
+    "Animation Best Practices for Web Interfaces",
+    "Dark Mode Design Considerations",
+    "Minimalism vs Maximalism in UI Design",
+    "The Psychology of User Experience",
+    "Responsive Design Beyond Media Queries",
+    "UI Design for Voice Interfaces",
+    "Iconography in Modern Applications",
+    "Data Visualization Design Principles",
+    "Designing for Different Cultural Contexts",
+    "The Role of Whitespace in Web Design",
+  ];
+
+  // Sample sites and categories
+  const sites = ["hn", "verge", "smashing"];
+
+  // Generate additional items
+  for (let i = 0; i < count - baseItems.length; i++) {
+    const siteId = sites[Math.floor(Math.random() * sites.length)];
+    const categoryId = siteId === "smashing" ? "design" : "tech";
+    const titles = categoryId === "tech" ? techTitles : designTitles;
+    const title = titles[Math.floor(Math.random() * titles.length)];
+
+    // Create random time offset between 1 hour and 30 days
+    const hoursAgo = Math.floor(Math.random() * 30 * 24) + 1;
+    const date = new Date(Date.now() - hoursAgo * 60 * 60 * 1000).toISOString();
+
+    // Create content and snippet
+    const content = `<article><h1>${title}</h1><p>This is detailed content for the article about ${title.toLowerCase()}. It contains multiple paragraphs and possibly some code examples or images.</p><p>Second paragraph with more information and details about the topic.</p></article>`;
+    const contentSnippet = `This is a short snippet about ${title.toLowerCase()}...`;
+
+    items.push({
+      id: `${siteId}-item-${i + baseItems.length + 1}`,
+      title,
+      link: `https://example.com/${siteId}/item${i + baseItems.length + 1}`,
+      pubDate: date,
+      content,
+      contentSnippet,
+      isoDate: date,
+      siteId,
+      categoryId,
+    });
+  }
+
+  // Sort all items by date (newest first)
+  return items.sort((a, b) => {
+    return (
+      new Date(b.isoDate || "").getTime() - new Date(a.isoDate || "").getTime()
+    );
+  });
+};
+
+// Export the expanded list with 50 items total
+export const mockItems: FeedItem[] = generateMockItems(50);
 
 // Helper function to get items for a specific site
 export const getItemsForSite = (siteId: string): FeedItem[] => {
