@@ -51,31 +51,34 @@ const useHashParams = () => {
   return params;
 };
 
-// Custom hook for detecting screen size
-const useMediaQuery = (query: string) => {
-  const [matches, setMatches] = useState(false);
-
-  useEffect(() => {
-    const media = window.matchMedia(query);
-    const listener = () => setMatches(media.matches);
-
-    // Set initial state
-    listener();
-
-    // Add listener
-    media.addEventListener("change", listener);
-
-    // Cleanup
-    return () => media.removeEventListener("change", listener);
-  }, [query]);
-
-  return matches;
-};
+// Create a BackButton component that can be reused
+function BackButton() {
+  return (
+    <a
+      href="#"
+      className="inline-flex items-center text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400"
+      aria-label="Go back"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="h-5 w-5 mr-1"
+        viewBox="0 0 20 20"
+        fill="currentColor"
+      >
+        <path
+          fillRule="evenodd"
+          d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+          clipRule="evenodd"
+        />
+      </svg>
+      Back
+    </a>
+  );
+}
 
 export default function Home() {
   const { categoryId, siteId, itemId, isLoading, showAll, itemListLoading } =
     useHashParams();
-  const isDesktop = useMediaQuery("(min-width: 1281px)"); // Breakpoint > 1280px
   const [showLoading, setShowLoading] = useState(false);
   const [showItemListLoading, setShowItemListLoading] = useState(false);
 
@@ -160,62 +163,14 @@ export default function Home() {
     );
   }
 
-  // Mobile view logic
-  if (!isDesktop) {
-    if (itemId && selectedItem) {
-      // Show only ItemContent if an item is selected
-      return (
-        <main className="flex min-h-screen flex-col">
-          <div className="p-2">
-            <a
-              href="#"
-              className="inline-block mb-4 px-3 py-1 bg-gray-100 dark:bg-gray-800 rounded-md text-sm"
-            >
-              ← Back
-            </a>
-          </div>
-          <ItemContent item={selectedItem} />
-        </main>
-      );
-    }
-    if (categoryId || siteId || showAll) {
-      // Show only ItemList if category/site selected but no item
-      return (
-        <main className="flex min-h-screen flex-col">
-          <div className="p-2">
-            <a
-              href="#"
-              className="inline-block mb-4 px-3 py-1 bg-gray-100 dark:bg-gray-800 rounded-md text-sm"
-            >
-              ← Back
-            </a>
-          </div>
-          <ItemList
-            items={itemsToList}
-            listTitle={listTitle}
-            selectedItemId={itemId ?? undefined}
-            isLoading={showItemListLoading}
-          />
-        </main>
-      );
-    }
-    // Default mobile view: Show only CategoryList
-    return (
-      <main className="flex min-h-screen flex-col">
-        <CategoryList
-          categories={mockCategories}
-          selectedCategoryId={categoryId ?? undefined}
-          selectedSiteId={siteId ?? undefined}
-        />
-      </main>
-    );
-  }
-
-  // Desktop view: Three columns
   return (
-    <main className="flex h-screen overflow-hidden">
-      {/* Column 1: Categories */}
-      <div className="w-1/4 xl:w-1/5 flex-shrink-0">
+    <main className="flex flex-col md:flex-row h-screen overflow-hidden">
+      {/* Column 1: Categories - Hidden on mobile when viewing item or list */}
+      <div
+        className={`w-full md:w-1/4 xl:w-1/5 flex-shrink-0 md:block ${
+          categoryId || siteId || showAll || itemId ? "hidden" : ""
+        }`}
+      >
         <CategoryList
           categories={mockCategories}
           selectedCategoryId={categoryId ?? undefined}
@@ -223,15 +178,24 @@ export default function Home() {
         />
       </div>
 
-      {/* Column 2: Item List */}
-      <div className="w-1/3 xl:w-2/5 flex-shrink-0">
+      {/* Column 2: Item List - Hidden on mobile when viewing item */}
+      <div
+        className={`w-full md:w-1/3 xl:w-2/5 flex-shrink-0 md:block ${
+          itemId ? "hidden" : ""
+        }`}
+      >
         {categoryId || siteId || showAll ? (
-          <ItemList
-            items={itemsToList}
-            listTitle={listTitle}
-            selectedItemId={itemId ?? undefined}
-            isLoading={showItemListLoading}
-          />
+          <div className="flex flex-col h-full">
+            <div className="flex items-center p-4 border-b border-gray-200 dark:border-gray-700 md:hidden">
+              <BackButton />
+            </div>
+            <ItemList
+              items={itemsToList}
+              listTitle={listTitle}
+              selectedItemId={itemId ?? undefined}
+              isLoading={showItemListLoading}
+            />
+          </div>
         ) : (
           <div className="flex items-center justify-center h-full text-gray-500 dark:text-gray-400 p-8 text-center border-r border-gray-200 dark:border-gray-700">
             <p>
@@ -241,8 +205,13 @@ export default function Home() {
         )}
       </div>
 
-      {/* Column 3: Item Content */}
-      <div className="flex-1">
+      {/* Column 3: Item Content - Full width on mobile when viewing item */}
+      <div className={`w-full flex-1 ${!itemId ? "hidden md:block" : ""}`}>
+        {itemId && (
+          <div className="flex items-center p-4 border-b border-gray-200 dark:border-gray-700 md:hidden">
+            <BackButton />
+          </div>
+        )}
         <ItemContent item={selectedItem} />
       </div>
     </main>
