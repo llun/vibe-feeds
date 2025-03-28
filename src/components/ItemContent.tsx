@@ -28,30 +28,32 @@ export function ItemContent({ item }: ItemContentProps) {
   }
 
   return (
-    <article className="h-full overflow-y-auto">
-      <div className="sticky top-0 bg-white dark:bg-gray-900 p-6 pb-2 border-b border-gray-200 dark:border-gray-700">
-        <div className="md:hidden mb-2">
+    <article className="h-full overflow-hidden flex flex-col">
+      <div className="sticky top-0 z-10 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
+        <div className="md:hidden p-4 border-b border-gray-200 dark:border-gray-700">
           <BackButton />
         </div>
-        <h1 className="text-2xl font-bold">{item.title}</h1>
-        <div className="text-sm text-gray-500 dark:text-gray-400 mb-4">
-          <span>Published: {formatFullDate(item.isoDate)}</span>
-          {item.link && (
-            <>
-              <span className="mx-2">|</span>
-              <a
-                href={item.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-blue-600 dark:hover:text-blue-400"
-              >
-                View Original
-              </a>
-            </>
-          )}
+        <div className="p-6 pb-3">
+          <h1 className="text-2xl font-bold">{item.title}</h1>
+          <div className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+            <span>Published: {formatFullDate(item.isoDate)}</span>
+            {item.link && (
+              <>
+                <span className="mx-2">|</span>
+                <a
+                  href={item.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-blue-600 dark:hover:text-blue-400"
+                >
+                  View Original
+                </a>
+              </>
+            )}
+          </div>
         </div>
       </div>
-      <div className="p-6 pt-4 prose dark:prose-invert lg:prose-xl max-w-none">
+      <div className="p-6 pt-4 prose dark:prose-invert lg:prose-xl max-w-none overflow-y-auto flex-1">
         {/* Render HTML content safely */}
         {item.content ? (
           <div dangerouslySetInnerHTML={{ __html: item.content }} />
