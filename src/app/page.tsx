@@ -41,6 +41,7 @@ const useHashParams = () => {
       categoryId: hashParams.get("category"),
       siteId: hashParams.get("site"),
       itemId: hashParams.get("item"),
+      isLoading: hash.includes("loading"),
     };
   }, [hash]);
 
@@ -69,8 +70,21 @@ const useMediaQuery = (query: string) => {
 };
 
 export default function Home() {
-  const { categoryId, siteId, itemId } = useHashParams();
+  const { categoryId, siteId, itemId, isLoading } = useHashParams();
   const isDesktop = useMediaQuery("(min-width: 1281px)"); // Breakpoint > 1280px
+  const [showLoading, setShowLoading] = useState(false);
+
+  useEffect(() => {
+    if (isLoading) {
+      setShowLoading(true);
+      const timer = setTimeout(() => {
+        setShowLoading(false);
+        // Remove loading from URL after timeout
+        window.location.hash = window.location.hash.replace("loading", "");
+      }, 10000);
+      return () => clearTimeout(timer);
+    }
+  }, [isLoading]);
 
   const selectedCategory = useMemo(
     () => (categoryId ? getCategoryById(categoryId) : undefined),
@@ -104,6 +118,21 @@ export default function Home() {
     }
     return "Select a Category or Site";
   }, [selectedCategory, selectedSite]);
+
+  // Loading screen component
+  if (showLoading) {
+    return (
+      <div className="fixed inset-0 bg-white dark:bg-gray-900 flex items-center justify-center z-50">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-lg font-semibold">Loading content...</p>
+          <p className="text-sm text-gray-500 dark:text-gray-400">
+            This will take a few seconds
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   // Mobile view logic
   if (!isDesktop) {
