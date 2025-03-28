@@ -11,6 +11,7 @@ import {
   getItemById,
   getSiteById,
   getCategoryById,
+  mockItems,
 } from "@/data/mockData";
 import { FeedItem } from "@/types";
 
@@ -42,6 +43,7 @@ const useHashParams = () => {
       siteId: hashParams.get("site"),
       itemId: hashParams.get("item"),
       isLoading: hash.includes("loading"),
+      showAll: hash === "all",
     };
   }, [hash]);
 
@@ -70,7 +72,7 @@ const useMediaQuery = (query: string) => {
 };
 
 export default function Home() {
-  const { categoryId, siteId, itemId, isLoading } = useHashParams();
+  const { categoryId, siteId, itemId, isLoading, showAll } = useHashParams();
   const isDesktop = useMediaQuery("(min-width: 1281px)"); // Breakpoint > 1280px
   const [showLoading, setShowLoading] = useState(false);
 
@@ -101,23 +103,29 @@ export default function Home() {
 
   // Determine items to display in the list
   const itemsToList: FeedItem[] = useMemo(() => {
+    if (showAll) {
+      return mockItems;
+    }
     if (siteId) {
       return getItemsForSite(siteId);
     } else if (categoryId) {
       return getItemsForCategory(categoryId);
     }
     return [];
-  }, [categoryId, siteId]);
+  }, [categoryId, siteId, showAll]);
 
   // Determine title for the item list
   const listTitle = useMemo(() => {
+    if (showAll) {
+      return "All Items";
+    }
     if (selectedSite) {
       return selectedSite.title;
     } else if (selectedCategory) {
       return selectedCategory.title;
     }
     return "Select a Category or Site";
-  }, [selectedCategory, selectedSite]);
+  }, [selectedCategory, selectedSite, showAll]);
 
   // Loading screen component
   if (showLoading) {

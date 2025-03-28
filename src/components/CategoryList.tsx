@@ -2,7 +2,11 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Category } from "@/types";
-import { getItemsForCategory, getItemsForSite } from "@/data/mockData";
+import {
+  getItemsForCategory,
+  getItemsForSite,
+  mockItems,
+} from "@/data/mockData";
 
 interface CategoryListProps {
   categories: Category[];
@@ -15,6 +19,8 @@ export function CategoryList({
   selectedCategoryId,
   selectedSiteId,
 }: CategoryListProps) {
+  const totalItems = mockItems.length;
+
   return (
     <nav className="space-y-4 p-4 border-r border-gray-200 dark:border-gray-700 h-full overflow-y-auto">
       <div className="mb-6 flex items-center">
@@ -31,6 +37,21 @@ export function CategoryList({
         </Link>
       </div>
       <h2 className="text-lg font-semibold mb-4">Categories</h2>
+      <div className="mb-4">
+        <Link
+          href="#all"
+          className={`block font-medium hover:text-blue-600 dark:hover:text-blue-400 ${
+            !selectedCategoryId && !selectedSiteId
+              ? "text-blue-700 dark:text-blue-500"
+              : ""
+          }`}
+        >
+          All Items
+          <span className="ml-2 text-xs text-gray-500 dark:text-gray-400">
+            ({totalItems})
+          </span>
+        </Link>
+      </div>
       {categories.map((category) => (
         <div key={category.id} className="mb-4">
           <Link
