@@ -1,21 +1,10 @@
 "use client";
 
 import { useTheme } from "next-themes";
-import { useState, useEffect } from "react";
 import { Sun, Moon, Laptop } from "lucide-react";
 
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  // Avoid hydration mismatch by only rendering after mount
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) {
-    return null;
-  }
 
   return (
     <div className="flex items-center space-x-2 border rounded-md p-1 dark:border-gray-700">
