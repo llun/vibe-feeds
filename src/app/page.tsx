@@ -139,7 +139,7 @@ export default function Home() {
   }
 
   return (
-    <main className="flex flex-col md:flex-row h-screen overflow-hidden">
+    <main className="flex flex-col md:flex-row h-screen">
       {/* Column 1: Categories - Hidden on mobile when viewing item or list */}
       <div
         className={`w-full md:w-1/4 xl:w-1/5 flex-shrink-0 md:block ${
