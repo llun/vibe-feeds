@@ -1,6 +1,7 @@
 import React from "react";
 import { FeedItem } from "@/types";
 import { format } from "date-fns";
+import { BackButton } from "./BackButton";
 
 interface ItemContentProps {
   item?: FeedItem;
@@ -29,28 +30,10 @@ export function ItemContent({ item }: ItemContentProps) {
   return (
     <article className="h-full overflow-y-auto">
       <div className="sticky top-0 bg-white dark:bg-gray-900 p-6 pb-2 border-b border-gray-200 dark:border-gray-700">
-        <div className="flex items-start mb-2">
-          <a
-            href="#"
-            className="md:hidden inline-flex items-center text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 mr-3 mt-1"
-            aria-label="Go back"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5 mr-1"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fillRule="evenodd"
-                d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                clipRule="evenodd"
-              />
-            </svg>
-            Back
-          </a>
-          <h1 className="text-2xl font-bold flex-1">{item.title}</h1>
+        <div className="md:hidden mb-2">
+          <BackButton />
         </div>
+        <h1 className="text-2xl font-bold">{item.title}</h1>
         <div className="text-sm text-gray-500 dark:text-gray-400 mb-4">
           <span>Published: {formatFullDate(item.isoDate)}</span>
           {item.link && (
