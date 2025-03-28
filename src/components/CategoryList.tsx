@@ -16,18 +16,18 @@ export function CategoryList({
 }: CategoryListProps) {
   return (
     <nav className="space-y-4 p-4 border-r border-gray-200 dark:border-gray-700 h-full overflow-y-auto">
-      <div className="mb-6 flex flex-col items-center">
-        <Link href="#" className="inline-block">
+      <div className="mb-6 flex items-center">
+        <Link href="#" className="inline-flex items-center">
           <Image
             src="/logo.svg"
             alt="RSS Feed Icon"
             width={32}
             height={32}
-            className="dark:invert mb-1"
+            className="dark:invert"
             priority
           />
+          <h1 className="text-xl font-bold ml-2">FEEDS</h1>
         </Link>
-        <h1 className="text-xl font-bold mt-2">FEEDS</h1>
       </div>
       <h2 className="text-lg font-semibold mb-4">Categories</h2>
       {categories.map((category) => (
