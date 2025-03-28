@@ -44,6 +44,7 @@ const useHashParams = () => {
       itemId: hashParams.get("item"),
       isLoading: hash.includes("loading"),
       showAll: hash === "all",
+      itemListLoading: hash.includes("itemListLoading"),
     };
   }, [hash]);
 
@@ -72,9 +73,11 @@ const useMediaQuery = (query: string) => {
 };
 
 export default function Home() {
-  const { categoryId, siteId, itemId, isLoading, showAll } = useHashParams();
+  const { categoryId, siteId, itemId, isLoading, showAll, itemListLoading } =
+    useHashParams();
   const isDesktop = useMediaQuery("(min-width: 1281px)"); // Breakpoint > 1280px
   const [showLoading, setShowLoading] = useState(false);
+  const [showItemListLoading, setShowItemListLoading] = useState(false);
 
   useEffect(() => {
     if (isLoading) {
@@ -87,6 +90,21 @@ export default function Home() {
       return () => clearTimeout(timer);
     }
   }, [isLoading]);
+
+  useEffect(() => {
+    if (itemListLoading) {
+      setShowItemListLoading(true);
+      const timer = setTimeout(() => {
+        setShowItemListLoading(false);
+        // Remove itemListLoading from URL after timeout
+        window.location.hash = window.location.hash.replace(
+          "itemListLoading",
+          ""
+        );
+      }, 10000);
+      return () => clearTimeout(timer);
+    }
+  }, [itemListLoading]);
 
   const selectedCategory = useMemo(
     () => (categoryId ? getCategoryById(categoryId) : undefined),
@@ -160,7 +178,7 @@ export default function Home() {
         </main>
       );
     }
-    if (categoryId || siteId) {
+    if (categoryId || siteId || showAll) {
       // Show only ItemList if category/site selected but no item
       return (
         <main className="flex min-h-screen flex-col">
@@ -176,6 +194,7 @@ export default function Home() {
             items={itemsToList}
             listTitle={listTitle}
             selectedItemId={itemId ?? undefined}
+            isLoading={showItemListLoading}
           />
         </main>
       );
@@ -206,11 +225,12 @@ export default function Home() {
 
       {/* Column 2: Item List */}
       <div className="w-1/3 xl:w-2/5 flex-shrink-0">
-        {categoryId || siteId ? (
+        {categoryId || siteId || showAll ? (
           <ItemList
             items={itemsToList}
             listTitle={listTitle}
             selectedItemId={itemId ?? undefined}
+            isLoading={showItemListLoading}
           />
         ) : (
           <div className="flex items-center justify-center h-full text-gray-500 dark:text-gray-400 p-8 text-center border-r border-gray-200 dark:border-gray-700">

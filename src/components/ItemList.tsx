@@ -7,6 +7,7 @@ interface ItemListProps {
   items: FeedItem[];
   listTitle: string;
   selectedItemId?: string;
+  isLoading?: boolean;
 }
 
 // Helper to format date safely
@@ -20,13 +21,26 @@ const formatDate = (isoDate?: string): string => {
   }
 };
 
-export function ItemList({ items, listTitle, selectedItemId }: ItemListProps) {
+export function ItemList({
+  items,
+  listTitle,
+  selectedItemId,
+  isLoading = false,
+}: ItemListProps) {
   return (
     <div className="border-r border-gray-200 dark:border-gray-700 h-full overflow-y-auto">
       <h2 className="text-lg font-semibold p-4 border-b border-gray-200 dark:border-gray-700 sticky top-0 bg-white dark:bg-gray-900">
         {listTitle}
       </h2>
-      {items.length > 0 ? (
+
+      {isLoading ? (
+        <div className="flex flex-col items-center justify-center h-96 p-4">
+          <div className="w-12 h-12 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin mb-4"></div>
+          <p className="text-gray-500 dark:text-gray-400 text-center">
+            Loading items...
+          </p>
+        </div>
+      ) : items.length > 0 ? (
         <ul className="divide-y divide-gray-200 dark:divide-gray-700">
           {items.map((item) => (
             <li
