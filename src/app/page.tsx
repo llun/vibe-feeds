@@ -51,31 +51,6 @@ const useHashParams = () => {
   return params;
 };
 
-// Create a BackButton component that can be reused
-function BackButton() {
-  return (
-    <a
-      href="#"
-      className="inline-flex items-center text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400"
-      aria-label="Go back"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        className="h-5 w-5 mr-1"
-        viewBox="0 0 20 20"
-        fill="currentColor"
-      >
-        <path
-          fillRule="evenodd"
-          d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-          clipRule="evenodd"
-        />
-      </svg>
-      Back
-    </a>
-  );
-}
-
 export default function Home() {
   const { categoryId, siteId, itemId, isLoading, showAll, itemListLoading } =
     useHashParams();
@@ -185,17 +160,12 @@ export default function Home() {
         }`}
       >
         {categoryId || siteId || showAll ? (
-          <div className="flex flex-col h-full">
-            <div className="flex items-center p-4 border-b border-gray-200 dark:border-gray-700 md:hidden">
-              <BackButton />
-            </div>
-            <ItemList
-              items={itemsToList}
-              listTitle={listTitle}
-              selectedItemId={itemId ?? undefined}
-              isLoading={showItemListLoading}
-            />
-          </div>
+          <ItemList
+            items={itemsToList}
+            listTitle={listTitle}
+            selectedItemId={itemId ?? undefined}
+            isLoading={showItemListLoading}
+          />
         ) : (
           <div className="flex items-center justify-center h-full text-gray-500 dark:text-gray-400 p-8 text-center border-r border-gray-200 dark:border-gray-700">
             <p>
@@ -207,11 +177,6 @@ export default function Home() {
 
       {/* Column 3: Item Content - Full width on mobile when viewing item */}
       <div className={`w-full flex-1 ${!itemId ? "hidden md:block" : ""}`}>
-        {itemId && (
-          <div className="flex items-center p-4 border-b border-gray-200 dark:border-gray-700 md:hidden">
-            <BackButton />
-          </div>
-        )}
         <ItemContent item={selectedItem} />
       </div>
     </main>

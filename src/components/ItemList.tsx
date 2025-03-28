@@ -29,9 +29,30 @@ export function ItemList({
 }: ItemListProps) {
   return (
     <div className="border-r border-gray-200 dark:border-gray-700 h-full overflow-y-auto">
-      <h2 className="text-lg font-semibold p-4 border-b border-gray-200 dark:border-gray-700 sticky top-0 bg-white dark:bg-gray-900">
-        {listTitle}
-      </h2>
+      <div className="sticky top-0 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between p-4">
+        <div className="flex items-center">
+          <a
+            href="#"
+            className="md:hidden inline-flex items-center text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 mr-3"
+            aria-label="Go back"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5 mr-1"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fillRule="evenodd"
+                d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                clipRule="evenodd"
+              />
+            </svg>
+            Back
+          </a>
+          <h2 className="text-lg font-semibold">{listTitle}</h2>
+        </div>
+      </div>
 
       {isLoading ? (
         <div className="flex flex-col items-center justify-center h-96 p-4">
