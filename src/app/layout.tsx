@@ -16,13 +16,7 @@ export const metadata: Metadata = {
   title: "Feeds Reader",
   description: "A modern RSS/feeds reader application",
   icons: {
-    icon: [
-      {
-        url: "/favicon.svg",
-        type: "image/svg+xml",
-        sizes: "any",
-      },
-    ],
+    icon: "/favicon.ico",
   },
   manifest: "/site.webmanifest",
   themeColor: [
