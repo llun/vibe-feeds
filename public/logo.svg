@@ -1,0 +1,16 @@
+<svg width="120" height="40" viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg">
+  <!-- Main text -->
+  <text x="30" y="26" font-family="Arial, sans-serif" font-weight="bold" font-size="22">FEEDS</text>
+
+  <!-- RSS Icon -->
+  <g transform="translate(12, 20) scale(0.8)">
+    <!-- Outer circle -->
+    <circle cx="0" cy="0" r="9" fill="none" stroke="currentColor" stroke-width="2" />
+
+    <!-- Middle arc -->
+    <path d="M -4.5 0 A 4.5 4.5 0 0 1 0 -4.5" fill="none" stroke="currentColor" stroke-width="2" />
+
+    <!-- Center dot -->
+    <circle cx="0" cy="0" r="2" fill="currentColor" />
+  </g>
+</svg>
