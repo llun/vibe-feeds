@@ -36,7 +36,6 @@ export function CategoryList({
           <h1 className="text-xl font-bold ml-2">FEEDS</h1>
         </Link>
       </div>
-      <h2 className="text-lg font-semibold mb-4">Categories</h2>
       <div className="mb-4">
         <Link
           href="#all"
