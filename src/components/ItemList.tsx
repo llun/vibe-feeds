@@ -3,6 +3,7 @@ import Link from "next/link";
 import { FeedItem } from "@/types";
 import { formatDistanceToNow } from "date-fns";
 import { BackButton } from "./BackButton";
+import { getSiteById } from "@/data/mockData";
 
 interface ItemListProps {
   items: FeedItem[];
@@ -20,6 +21,12 @@ const formatDate = (isoDate?: string): string => {
     console.error("Error formatting date:", error);
     return "";
   }
+};
+
+// Helper to get site name
+const getSiteName = (siteId: string): string => {
+  const site = getSiteById(siteId);
+  return site?.title || "Unknown";
 };
 
 export function ItemList({
@@ -59,19 +66,29 @@ export function ItemList({
                 }`}
               >
                 <Link href={`#item=${item.id}`} className="block">
-                  <div className="flex justify-between items-center">
-                    <h3
-                      className={`font-medium text-sm ${
-                        item.id === selectedItemId
-                          ? "text-blue-700 dark:text-blue-500"
-                          : ""
-                      }`}
-                    >
-                      {item.title}
-                    </h3>
-                    <span className="text-xs text-gray-400 dark:text-gray-500 ml-2 whitespace-nowrap">
-                      {formatDate(item.isoDate)}
-                    </span>
+                  <div className="flex justify-between items-start">
+                    <div className="flex-1 pr-2">
+                      <h3
+                        className={`font-medium text-sm ${
+                          item.id === selectedItemId
+                            ? "text-blue-700 dark:text-blue-500"
+                            : ""
+                        }`}
+                      >
+                        {item.title}
+                      </h3>
+                      <div className="flex items-center mt-1">
+                        <span className="text-xs text-gray-500 dark:text-gray-400 font-medium">
+                          {getSiteName(item.siteId)}
+                        </span>
+                        <span className="mx-1 text-gray-400 dark:text-gray-500 text-xs">
+                          •
+                        </span>
+                        <span className="text-xs text-gray-400 dark:text-gray-500">
+                          {formatDate(item.isoDate)}
+                        </span>
+                      </div>
+                    </div>
                   </div>
                 </Link>
               </li>
