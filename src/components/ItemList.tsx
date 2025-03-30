@@ -74,34 +74,33 @@ export function ItemList({
                   }`}
                 >
                   <Link href={`#item=${item.id}`} className="block">
-                    <div className="flex justify-between items-start">
-                      <div className="flex-1 pr-2">
-                        <h3
-                          className={`font-medium text-sm ${
-                            item.id === selectedItemId
-                              ? "text-blue-700 dark:text-blue-500"
-                              : ""
-                          }`}
+                    <div className="pr-2 w-full">
+                      <h3
+                        className={`font-medium text-sm ${
+                          item.id === selectedItemId
+                            ? "text-blue-700 dark:text-blue-500"
+                            : ""
+                        }`}
+                      >
+                        {item.title}
+                      </h3>
+                      <div className="flex items-center mt-1 overflow-hidden whitespace-nowrap">
+                        <a
+                          href={siteLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-xs text-gray-500 dark:text-gray-400 font-medium hover:text-blue-600 dark:hover:text-blue-400 shrink truncate"
+                          onClick={(e) => e.stopPropagation()}
+                          title={siteName}
                         >
-                          {item.title}
-                        </h3>
-                        <div className="flex items-center mt-1">
-                          <a
-                            href={siteLink}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-xs text-gray-500 dark:text-gray-400 font-medium hover:text-blue-600 dark:hover:text-blue-400"
-                            onClick={(e) => e.stopPropagation()}
-                          >
-                            {siteName}
-                          </a>
-                          <span className="mx-1 text-gray-400 dark:text-gray-500 text-xs">
-                            •
-                          </span>
-                          <span className="text-xs text-gray-400 dark:text-gray-500">
-                            {formatDate(item.isoDate)}
-                          </span>
-                        </div>
+                          {siteName}
+                        </a>
+                        <span className="mx-1 text-gray-400 dark:text-gray-500 text-xs shrink-0">
+                          •
+                        </span>
+                        <span className="text-xs text-gray-400 dark:text-gray-500 shrink-0 min-w-[100px] text-right">
+                          {formatDate(item.isoDate)}
+                        </span>
                       </div>
                     </div>
                   </Link>

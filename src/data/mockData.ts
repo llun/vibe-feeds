@@ -17,6 +17,13 @@ export const mockCategories: Category[] = [
         url: "https://www.theverge.com/rss/index.xml",
         link: "https://www.theverge.com/",
       },
+      {
+        id: "longname",
+        title:
+          "This is an Extremely Long Site Name That Will Definitely Need Truncation When Displayed in the UI Because it Contains Well Over Three Hundred Characters and Will Likely Cause Layout Issues if Not Properly Handled and Truncated Appropriately Using CSS or JavaScript Methods Such as Text Overflow Ellipsis or Custom Truncation Logic That Preserves the Readability While Ensuring the UI Remains Clean and Consistent Across Various Screen Sizes",
+        url: "https://example.com/feed.xml",
+        link: "https://example.com",
+      },
     ],
   },
   {
@@ -101,6 +108,32 @@ const baseItems: FeedItem[] = [
     isoDate: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
     siteId: "smashing",
     categoryId: "design",
+  },
+  // Long-named site items
+  {
+    id: "longname-item-1",
+    title: "Article from site with very long name",
+    link: "https://example.com/longname/item1",
+    pubDate: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(), // 2 hours ago
+    content:
+      "<p>This is an article from a site with a very long name that needs to be truncated properly.</p>",
+    contentSnippet: "This is an article from a site with a very long name...",
+    isoDate: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
+    siteId: "longname",
+    categoryId: "tech",
+  },
+  {
+    id: "longname-item-2",
+    title: "Second article from long-named site",
+    link: "https://example.com/longname/item2",
+    pubDate: new Date(Date.now() - 6 * 60 * 60 * 1000).toISOString(), // 6 hours ago
+    content:
+      "<p>Another article from our site with the extremely long name that should be truncated in the UI.</p>",
+    contentSnippet:
+      "Another article from our site with the extremely long name...",
+    isoDate: new Date(Date.now() - 6 * 60 * 60 * 1000).toISOString(),
+    siteId: "longname",
+    categoryId: "tech",
   },
 ];
 
